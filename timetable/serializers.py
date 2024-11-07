@@ -32,7 +32,7 @@ class TimetableSerializer(ModelSerializer):
         end_date = attrs.get('end_date')
 
         # Check if both dates are not before today
-        if start_date < date.today() or end_date < date.today():
+        if end_date < date.today():
             raise ValidationError("Las fechas no pueden ser anteriores a hoy.")
 
         # Check if start_date is greater than end_date
