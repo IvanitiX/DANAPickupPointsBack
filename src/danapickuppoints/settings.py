@@ -11,10 +11,13 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -23,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-xnalud4iex-_0(s!5&qq3gk!#u(99+f28=0q---zg+xwyfe+^&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.getenv('DEBUG'))
 
 
 # Application definition
@@ -75,7 +78,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'danapickuppoints.wsgi.application'
 
-ALLOWED_HOSTS = ["*", "127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "0.0.0.0", "172.24.0.2", "172.24.0.3", "172.24.0.4"]
 CORS_ORIGIN_ALLOW_ALL = True
 
 
@@ -84,8 +87,12 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',  # Change to PostgreSQL
+        'NAME': os.getenv('DB_NAME'),  # Use the DB_NAME from the environment variable
+        'USER': os.getenv('DB_USER'),  # Use the DB_USER from the environment variable
+        'PASSWORD': os.getenv('DB_PASSWORD'),  # Use the DB_PASSWORD from the environment variable
+        'HOST': os.getenv('DB_HOST'),  # Use the DB_IP from the environment variable
+        'PORT': '5432',  # Default PostgreSQL port
     }
 }
 
